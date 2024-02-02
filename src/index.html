@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FragmentGLSL</title>
+
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="icon" type="image/x-icon" href="/img/f.png">
+
+    <script src="libs/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div id="navbar">
+    
+        <div>
+            <button id="menu-button" class="menu-button"></button>
+            <strong style="margin-left: 5px;font-size: larger;">FragmentGLSL</strong>
+        </div>
+
+        <div class="navbar-buttons">
+            <button id="darkmode-button"></button>
+            <button id="github-button" onclick="window.open('https://github.com/MorcilloSanz/FragmentGLSL')"></button>
+        </div>
+    </div>
+
+    <!-- LEFT MENU BAR -->
+    <div id="menu" style="background-color: #333;color:white;margin-top: 44px; padding: 0;width: 0;">
+        <ul style="margin:0;padding:0;">
+            <li id="dowload-li" style="padding: 10px; margin: 0;list-style-type: none; cursor: pointer;"><button id="download-button"></button> download</li>
+            <li id="uniforms-li" style="padding: 10px; margin: 0;list-style-type: none; cursor: pointer;"><button id="uniforms-button"></button> uniforms</li>
+            <li id="settings-li" style="padding: 10px; margin: 0;list-style-type: none; cursor: pointer;"><button id="settings-button"></button> settings</li>
+        </ul>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settings-modal" class="settings">
+        <div class="settings-content">
+            <div>
+                <strong>Settings</strong>
+                <button id="close-settings" class="close-button"></button>
+            </div>
+
+            <div style="padding-top: 15px; padding-bottom: 15px">
+                <table class="table-settings">
+                    <tr>
+                        <td>Font size:</td>
+                        <td>
+                            <input type="number" name="font-size-input" id="font-size-input" value="12" min="5" onKeyDown="return false"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Font:</td>
+                        <td>
+                            <select name="fonts" id="fonts" disabled>
+                                <option value="volvo">Roboto</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+                <button id="save-settings">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDITOR -->
+    <div id="editor">#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+void main() {
+    
+    float w = 0.25;
+    float t = u_time * 10e-3;
+
+    vec3 color = vec3(
+        sin(w * t) * gl_FragCoord.x / u_resolution.x, 
+        cos(w * t) * gl_FragCoord.y / u_resolution.y, 
+        1
+    );
+
+    gl_FragColor = vec4(color, 1.0);
+}</div>
+
+    <!-- CANVAS -->
+    <canvas id="webgl-canvas" width="400" height="400"></canvas>
+
+    <!-- ERROR OUTPUT -->
+    <footer>
+        <pre id="error-output"></pre>
+    </footer>
+
+    <!-- JS EDITOR -->
+    <script src="js/editor.js"></script>
+
+    <!-- JS MENU -->
+    <script src="js/menu.js"></script>
+
+    <!-- JS WEBGL -->
+    <script src="js/webgl.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', initWebGL);
+    </script>
+
+</body>
+</html>

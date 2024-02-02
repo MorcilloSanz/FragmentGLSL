@@ -1,0 +1,239 @@
+@font-face {
+    font-family:"Roboto";
+    src: url("../fonts/Roboto-Light.ttf") format("truetype");
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    font-family: Roboto;
+    overflow: hidden;
+}
+
+#navbar {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between; /* Para alinear los elementos a los extremos */
+    align-items: center; /* Para centrar verticalmente los elementos */
+}
+
+#menu {
+    background-color: #333;
+    color: white;
+}
+
+li:hover {
+    background-color: #222;
+}
+
+#editor {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    margin-top: 45px;
+
+    max-height: calc(100vh - (45px + 75px)); /* Altura máxima de la pantalla menos la altura de la barra de navegación y altura del footer */
+    overflow: auto;
+}
+
+#webgl-canvas {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border-left: 2px solid #333;
+    min-width: 0;
+    margin-top: 45px;
+
+    max-height: calc(100vh - 45px); /* Altura máxima de la pantalla menos la altura de la barra de navegación  */
+    overflow: auto;
+}
+
+#darkmode-button {
+    background-image: url(../img/light.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 24px;
+    padding-left: 24px;
+    vertical-align: middle;
+}
+
+#github-button {
+    background-image: url(../img/github.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 24px;
+    padding-left: 24px;
+    vertical-align: middle;
+}
+
+.menu-button {
+    background-image: url(../img/menu.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 24px;
+    padding-left: 24px;
+    vertical-align: middle;
+}
+
+.menu-button:hover {
+    background-image: url(../img/menu2.png);
+}
+
+#settings-button {
+    background-image: url(../img/settings.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 16px;
+    padding-left: 16px;
+    vertical-align: middle;
+}
+
+#download-button {
+    background-image: url(../img/download.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 16px;
+    padding-left: 16px;
+    vertical-align: middle;
+}
+
+#uniforms-button {
+    background-image: url(../img/u.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 16px;
+    padding-left: 16px;
+    vertical-align: middle;
+}
+
+.navbar-buttons {
+    display: flex;
+    margin-right: 15px;
+}
+
+.navbar-buttons button:first-child {
+    margin-right: 10px;
+}
+
+footer {
+    background-color: transparent;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+footer pre {
+    font-family: Roboto;
+    color: white;
+    background-color: #333;
+    border-right: 1px solid #333;
+    width: calc(50% - 1px); /* Adjust the width as needed */
+    height: 75px; /* Adjust the height as needed */
+    overflow: auto;
+    margin: 0;
+}
+
+.settings {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    font-family: Roboto;
+}
+
+.settings-content {
+    color: white;
+    background-color: #333;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #333;
+    width: 300px;
+    height: 150px;
+}
+
+.close-button {
+    background-image: url(../img/close.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 16px;
+    padding-left: 16px;
+    vertical-align: middle;
+    float: right;
+}
+
+.close-button:hover {
+    background-image: url(../img/close2.png);
+}
+
+input[type=number] {
+    position: relative; 
+    padding: 5px;
+    padding-right: 25px;
+    font-family: Roboto;
+}
+
+#table-settings {
+    padding-top: 10px;
+}
+
+#table-settings tr{
+    padding-top: 10px;
+}
+
+#save-settings {
+    padding: 10px;
+    margin-right: 8px;
+    border:0;
+    border-radius: 10%;
+    background-color: rgb(95, 95, 255);
+    color: white;
+    float: right;
+    margin-bottom: 5px;
+    font-family: Roboto;
+}
+
+#save-settings:hover {
+    background-color: rgb(55, 55, 255);
+}
