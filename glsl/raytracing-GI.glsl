@@ -26,20 +26,20 @@
 */
 
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
+
+// Constants
+#define M_PI 3.1415926535897932384626433832795
+#define INF 999999999999.0;
+
+#define MAX_SPHERES 4
+#define SHADOW_INTENSITY 0.40
 
 // Uniforms
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
-
-// Constants
-#define M_PI 3.1415926535897932384626433832795
-#define INF 1. / 0.;
-
-#define MAX_SPHERES 4
-#define SHADOW_INTENSITY 0.20
 
 // PBR, Ray Tracing and Global Ilumination
 struct Ray {
@@ -204,6 +204,10 @@ vec3 computeIndirectLighting(vec3 wo, HitInfo hitInfo, Sphere sunSphere) {
         
         HitInfo hitInfo2 = getHitInfo(ray);
         if(hitInfo2.hit) {
+        
+            // Normalize colors for energy conservation. HDR (Reinhard tone mapping)
+            hitInfo2.material.albedo /= (hitInfo2.material.albedo + vec3(1.0));
+            hitInfo2.material.emission /= (hitInfo2.material.emission + vec3(1.0));
             
             // Reflactance
             vec3 F0 = vec3(0.04); 
@@ -274,10 +278,11 @@ vec3 computeIndirectLighting(vec3 wo, HitInfo hitInfo, Sphere sunSphere) {
 
 
 void initSpheres() {
+
     
     // Sphere 1
     Material material1;
-    material1.albedo = vec3(0.4, 0.3, 1.0);
+    material1.albedo = vec3(0.1, 0.1, 4.0);
     material1.metallic = 0.0;
     material1.roughness = 0.5;
     material1.emission = vec3(0.0);
@@ -289,7 +294,7 @@ void initSpheres() {
     
     // Sphere 2
     Material material2;
-    material2.albedo = vec3(1.0, 0.3, 0.4);
+    material2.albedo = vec3(3.0, 0.1, 0.15);
     material2.metallic = 0.0;
     material2.roughness = 0.1;
     material2.emission = vec3(0.0);
@@ -301,7 +306,7 @@ void initSpheres() {
     
     // Sphere 3
     Material material3;
-    material3.albedo = vec3(0.3, 1.0, 0.4);
+    material3.albedo = vec3(0.1, 1.0, 0.15);
     material3.metallic = 0.0;
     material3.roughness = 1.0;
     material3.emission = vec3(0.0);
@@ -344,15 +349,15 @@ void main() {
     ray.direction = vec3(0.0, 0.0, -1.0);
     
     // Sun
-    float w = 0.085;
+    float w = 0.05;
     float t = u_time * 10e-3;
     float r = 5.0;
     
     Material sunMaterial;
-    sunMaterial.albedo = vec3(1.0);
+    sunMaterial.albedo = vec3(0.0);
     sunMaterial.roughness = 0.0;
     sunMaterial.metallic = 0.0;
-    sunMaterial.emission = vec3(3.75);
+    sunMaterial.emission = vec3(8.0);
     
     Sphere sunSphere;
     sunSphere.origin = vec3(r * sin(w * t), 0.85, r * cos(w * t));
@@ -367,7 +372,7 @@ void main() {
         hitInfo = hitInfoSun;
     
     // Sky color
-    vec3 lo = mix(vec3(0.0, 0.0, 0.0), vec3(0.2, 0.2, 0.2), gl_FragCoord.y / u_resolution.y);
+    vec3 lo = mix(vec3(0.2, 0.1, 0.05), vec3(0.1, 0.4, 0.6), gl_FragCoord.y / u_resolution.y);
     
     // Compute lighting
     vec3 wo = -normalize(ray.direction);
@@ -376,6 +381,10 @@ void main() {
     vec3 H = normalize(wi + wo);
 
     if(hitInfo.hit) {
+    
+        // Normalize colors for energy conservation. HDR (Reinhard tone mapping)
+        hitInfo.material.albedo /= (hitInfo.material.albedo + vec3(1.0));
+        hitInfo.material.emission /= (hitInfo.material.emission + vec3(1.0));
         
         // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0 
         // of 0.04 and if it's a metal, use the albedo color as F0 (metallic workflow)  
@@ -408,6 +417,13 @@ void main() {
         if(shadow(hitInfo.intersection, sunSphere)) 
             lo *= (1.0 - SHADOW_INTENSITY);
     }
-        
+    
+    // Gamma correction
+    float gamma = 2.2;
+    float power = 1.0 / gamma;
+    
+    lo = vec3(pow(lo.x, power), pow(lo.y, power), pow(lo.z, power));
+    
+    // Output color    
     gl_FragColor = vec4(lo, 1.0);
 }
