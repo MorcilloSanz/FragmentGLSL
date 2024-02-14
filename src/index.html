@@ -10,6 +10,9 @@
     <link rel="icon" type="image/x-icon" href="/img/f.png">
 
     <script src="libs/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- WEBGL variabless and functions -->
+    <script src="js/webgl.js"></script>
 </head>
 <body>
 
@@ -18,7 +21,11 @@
     
         <div>
             <button id="menu-button" class="menu-button"></button>
-            <strong style="margin-left: 5px;font-size: larger;">FragmentGLSL</strong>
+            <strong style="margin-left: 5px;font-size: larger;margin-bottom: 0px; padding: 0px;">FragmentGLSL</strong>
+        </div>
+
+        <div class="toolbar">
+            <button id="run-button"></button>
         </div>
 
         <div class="navbar-buttons">
@@ -106,8 +113,7 @@ void main() {
     <!-- JS MENU -->
     <script src="js/menu.js"></script>
 
-    <!-- JS WEBGL -->
-    <script src="js/webgl.js"></script>
+    <!-- JS init WEBGL -->
     <script>
         document.addEventListener('DOMContentLoaded', initWebGL);
     </script>

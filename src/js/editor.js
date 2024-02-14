@@ -20,11 +20,11 @@ let dark = false;
 darkmodeButton.addEventListener("click", function() {
     if(!dark) {
         editor.setTheme("ace/theme/monokai");
-        darkmodeButton.style. backgroundImage = "url('img/dark.png')";
+        darkmodeButton.style.backgroundImage = "url('img/dark.png')";
     }
     else {
         editor.setTheme("ace/theme/clouds");
-        darkmodeButton.style. backgroundImage = "url('img/light.png')";
+        darkmodeButton.style.backgroundImage = "url('img/light.png')";
     }
     dark = !dark;
 });

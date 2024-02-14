@@ -1,3 +1,5 @@
+let running = true;
+
 function initWebGL() {
         
     const canvas = document.getElementById('webgl-canvas');
@@ -54,49 +56,52 @@ function initWebGL() {
 
     function render() {
 
-        let compiled = false;
-        let newFragmentShader = null;
+        if(running) {
+            
+            let compiled = false;
+            let newFragmentShader = null;
 
-        fragmentShaderCode = editor.getValue();
+            fragmentShaderCode = editor.getValue();
 
-        let errorOutput = document.getElementById('error-output');
+            let errorOutput = document.getElementById('error-output');
 
-        try {
-            newFragmentShader = compileProgram(fragmentShaderCode);
-            compiled = true;
-        }
-        catch(error) {
-            errorOutput.innerHTML = error;
-            errorOutput.style.backgroundColor = "#ff334e";
-        }
-        
-        if(compiled && newFragmentShader != null) {
-
-            fragmentShader = newFragmentShader;
-            gl.attachShader(program, fragmentShader);
-            gl.linkProgram(program);
-
-            if (!gl.getProgramParameter(program, gl.LINK_STATUS) && program != null) {
-                console.error('Program linking failed:', gl.getProgramInfoLog(program));
-                return;
+            try {
+                newFragmentShader = compileProgram(fragmentShaderCode);
+                compiled = true;
             }
+            catch(error) {
+                errorOutput.innerHTML = error;
+                errorOutput.style.backgroundColor = "#ff334e";
+            }
+            
+            if(compiled && newFragmentShader != null) {
 
-            gl.useProgram(program);
+                fragmentShader = newFragmentShader;
+                gl.attachShader(program, fragmentShader);
+                gl.linkProgram(program);
 
-            // Uniforms
-            const uTime = Date.now() - startTime;
-            uniformFloat(gl, "u_time", uTime, program);
+                if (!gl.getProgramParameter(program, gl.LINK_STATUS) && program != null) {
+                    console.error('Program linking failed:', gl.getProgramInfoLog(program));
+                    return;
+                }
 
-            uniformVec2(gl, "u_resolution", 400, 400, program);
+                gl.useProgram(program);
 
-            // Draw call
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                // Uniforms
+                const uTime = Date.now() - startTime;
+                uniformFloat(gl, "u_time", uTime, program);
 
-            // Clear error
-            errorOutput.innerHTML = "<p style='padding: 10px'><strong>Compiled</strong> successfully</p>";
-            errorOutput.style.backgroundColor = "green";
+                uniformVec2(gl, "u_resolution", 400, 400, program);
+
+                // Draw call
+                gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                // Clear error
+                errorOutput.innerHTML = "<p style='padding: 10px'><strong>Compiled</strong> successfully</p>";
+                errorOutput.style.backgroundColor = "green";
+            }
         }
 
         // Request next frame (rendering loop)

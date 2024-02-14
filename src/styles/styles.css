@@ -237,3 +237,23 @@ input[type=number] {
 #save-settings:hover {
     background-color: rgb(55, 55, 255);
 }
+
+.toolbar {
+    display: flex;
+}
+
+#run-button {
+    background-image: url(../img/pause.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    border: none;
+    cursor: pointer;
+    height: 24px;
+    padding-left: 24px;
+    vertical-align: middle;
+}
+
+#run-button:hover {
+    opacity: 0.5;
+}

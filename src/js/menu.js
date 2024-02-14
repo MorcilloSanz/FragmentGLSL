@@ -98,3 +98,17 @@ document.getElementById("save-settings").addEventListener("click", function() {
 
     modalSettings.style.display = "none";
 });
+
+// Compile button events
+let runButton = document.getElementById("run-button");
+runButton.addEventListener("click", function() {
+
+    running = !running;
+    
+    if(!running) {
+        runButton.style.backgroundImage = "url('../img/run.png')";
+    }
+    else {
+        runButton.style.backgroundImage = "url('../img/pause.png')";
+    }
+});
